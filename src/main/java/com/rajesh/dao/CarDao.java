@@ -54,8 +54,24 @@ public class CarDao {
 	
 	public static Car getCarById(int id)
 	{
-		Session s=FactoryProvider.getFactory().openSession();
-		return s.get(Car.class, id);
+		try(Session s=FactoryProvider.getFactory().openSession())
+		{
+			 Car car=s.get(Car.class,id);
+			 if(car!=null)
+			 {
+				 s.close();
+				 return car;
+			 }
+			 else
+			 {
+				 return null;
+			 }
+		}
+		//here we finish the get car by id method okay 
+		
+		
+		
+		//return s.get(Car.class, id);
 	}
 	
 	
