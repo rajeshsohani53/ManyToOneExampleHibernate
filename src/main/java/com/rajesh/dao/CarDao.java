@@ -1,7 +1,10 @@
 package com.rajesh.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import com.rajesh.entity.Brand;
 import com.rajesh.entity.Car;
@@ -73,6 +76,19 @@ public class CarDao {
 		
 		//return s.get(Car.class, id);
 	}
+	
+	public List<Car> getAllCar()
+	{
+		//return s.createQuery("select c from Car c left join fetch c.brand order by c.id", Car.class).list();
+		try(Session s=FactoryProvider.getFactory().openSession())
+		{
+			Query<Car> car_list_query=s.createQuery("from Car",Car.class);
+			   List<Car> car_list=car_list_query.list();
+			return car_list;
+		}
+		//return null;
+	}
+	//here we complete the get list of all cat method okay
 	
 	
 }
