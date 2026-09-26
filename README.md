@@ -91,3 +91,38 @@ To read a car back, uncomment the `CarDao.getCarById(1)` lines in `Main.java`.
 ## License
 
 This project is for learning purposes.
+
+## React frontend + REST API
+
+The project now also runs as a web app:
+
+```
+React (frontend/, port 5173) ──fetch /api/*──▶ Javalin REST API (port 8080) ──Hibernate──▶ MySQL
+```
+
+`com.rajesh.api.ApiServer` exposes the DAOs as JSON endpoints:
+
+| Method   | URL               | Body / notes                                                  |
+|----------|-------------------|---------------------------------------------------------------|
+| `GET`    | `/api/brands`     | List brands                                                   |
+| `POST`   | `/api/brands`     | `{ "name": "BMW" }`                                           |
+| `GET`    | `/api/cars`       | List cars with their brand                                    |
+| `GET`    | `/api/cars/{id}`  | One car (404 if missing)                                      |
+| `POST`   | `/api/cars`       | `{ "name", "color", "price", "fuleType", "brandId" }`         |
+| `DELETE` | `/api/cars/{id}`  | Delete a car                                                  |
+
+### Running it
+
+Start MySQL first (see `hibernate.cfg.xml` for the connection settings), then use two terminals:
+
+```powershell
+# Terminal 1 - backend (Maven is downloaded automatically by the wrapper)
+.\mvnw compile exec:java
+
+# Terminal 2 - frontend
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:5173. The Vite dev server forwards `/api/*` to `http://localhost:8080`, so no CORS setup is needed.
